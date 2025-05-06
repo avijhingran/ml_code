@@ -105,7 +105,7 @@ model = initialize_or_load_model()
 model = train_incrementally(model, X_train, y_train)
 
 # Step 5: Evaluate
-evaluate_model(model, X_test, y_test)
+acc, y_pred = evaluate_model(model, X_test, y_test)
 
 # Step 6: Save updated model
 save_model(model)
