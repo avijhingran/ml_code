@@ -69,8 +69,8 @@ def visualize_comparison(X, y_true, y_pred, save_path="comparison_plot.png"):
     fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     
     # Plot 1: Ground Truth (actual labels)
-    axes[0].scatter(X[y_true==0][:, 0], X[y_true==0][:, 1], c='green', label='Safe (0)', alpha=0.7, edgecolors='k')
-    axes[0].scatter(X[y_true==1][:, 0], X[y_true==1][:, 1], c='red', label='Risky (1)', alpha=0.7, edgecolors='k')
+    axes[0].scatter(X[y_true==0][:, 0], X[y_true==0][:, 1], c='green', label='Safe', alpha=0.7, edgecolors='k')
+    axes[0].scatter(X[y_true==1][:, 0], X[y_true==1][:, 1], c='red', label='Risky', alpha=0.7, edgecolors='k')
     axes[0].set_title('Ground Truth: Program Risk')
     axes[0].set_xlabel('Lines of Code (LOC)')
     axes[0].set_ylabel('Cyclomatic Complexity')
@@ -78,8 +78,8 @@ def visualize_comparison(X, y_true, y_pred, save_path="comparison_plot.png"):
     axes[0].grid(True)
     
     # Plot 2: Model Predictions
-    axes[1].scatter(X[y_pred==0][:, 0], X[y_pred==0][:, 1], c='green', label='Predicted Safe (0)', alpha=0.7, edgecolors='k')
-    axes[1].scatter(X[y_pred==1][:, 0], X[y_pred==1][:, 1], c='red', label='Predicted Risky (1)', alpha=0.7, edgecolors='k')
+    axes[1].scatter(X[y_pred==0][:, 0], X[y_pred==0][:, 1], c='green', label='Predicted Safe', alpha=0.7, edgecolors='k')
+    axes[1].scatter(X[y_pred==1][:, 0], X[y_pred==1][:, 1], c='red', label='Predicted Risky', alpha=0.7, edgecolors='k')
     axes[1].set_title('Model Predictions: Program Risk')
     axes[1].set_xlabel('Lines of Code (LOC)')
     axes[1].set_ylabel('Cyclomatic Complexity')
