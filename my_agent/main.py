@@ -9,8 +9,8 @@ from sklearn.metrics import accuracy_score
 import datetime
 
 # 2. Constants
-DATA_FILE = 'my_agent/dataset.csv'  # Path inside Colab after clone
-MODEL_DIR = 'my_agent/models/'      # Models will be saved here
+DATA_FILE = 'dataset.csv'  # Path inside Colab after clone
+MODEL_DIR = 'models/'      # Models will be saved here
 MODEL_FILE = os.path.join(MODEL_DIR, 'model.pkl') 
 CLASSES = np.array([0,1])           # Risk classes: Safe (0), Risky (1)
 
