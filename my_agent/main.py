@@ -63,8 +63,8 @@ def timestamped_model_save(model):
         pickle.dump(model, f)
     print(f" Model also saved as {versioned_file} for version control.")
 
-def visualize_comparison(X, y_true, y_pred):
-    """Compare true labels vs model predictions using side-by-side scatter plots."""
+def visualize_comparison(X, y_true, y_pred, save_path="comparison_plot.png"):
+    """Compare true labels vs model predictions using scatter plots, and save as image."""
     
     fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     
@@ -88,7 +88,10 @@ def visualize_comparison(X, y_true, y_pred):
     
     plt.suptitle('Comparison: Ground Truth vs Model Predictions', fontsize=16)
     plt.tight_layout(rect=[0, 0, 1, 0.95])
-    plt.show()
+    
+    # Save the figure
+    plt.savefig(save_path)
+    plt.close()  # Close plot to avoid memory issues
 
 # 5. Main Agent Flow
 # Step 1: Load dataset
