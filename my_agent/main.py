@@ -7,6 +7,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import datetime
+import matplotlib.pyplot as plt
 
 # 2. Constants
 DATA_FILE = 'dataset.csv'  # Path inside Colab after clone
@@ -28,11 +29,11 @@ def load_dataset(file_path):
 def initialize_or_load_model():
     """Load model from disk if exists, else initialize new."""
     if os.path.exists(MODEL_FILE):
-        print("✅ Loading existing model...")
+        print("Loading existing model...")
         with open(MODEL_FILE, 'rb') as f:
             model = pickle.load(f)
     else:
-        print("🆕 Creating new model...")
+        print("Creating new model...")
         model = SGDClassifier(loss='log_loss')  # behaves like Logistic Regression
     return model
 
@@ -40,7 +41,7 @@ def save_model(model):
     """Save model to disk."""
     with open(MODEL_FILE, 'wb') as f:
         pickle.dump(model, f)
-    print("💾 Model saved successfully.")
+    print("Model saved successfully.")
 
 def train_incrementally(model, X_train, y_train):
     """Train model on new data."""
@@ -51,7 +52,7 @@ def evaluate_model(model, X_test, y_test):
     """Evaluate model and print accuracy."""
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
-    print(f"📈 Model Accuracy: {acc*100:.2f}%")
+    print(f" Model Accuracy: {acc*100:.2f}%")
     return acc
 
 def timestamped_model_save(model):
@@ -60,12 +61,39 @@ def timestamped_model_save(model):
     versioned_file = f"model_{timestamp}.pkl"
     with open(versioned_file, 'wb') as f:
         pickle.dump(model, f)
-    print(f"🗂️  Model also saved as {versioned_file} for version control.")
+    print(f" Model also saved as {versioned_file} for version control.")
+
+def visualize_comparison(X, y_true, y_pred):
+    """Compare true labels vs model predictions using side-by-side scatter plots."""
+    
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+    
+    # Plot 1: Ground Truth (actual labels)
+    axes[0].scatter(X[y_true==0][:, 0], X[y_true==0][:, 1], c='green', label='Safe (0)', alpha=0.7, edgecolors='k')
+    axes[0].scatter(X[y_true==1][:, 0], X[y_true==1][:, 1], c='red', label='Risky (1)', alpha=0.7, edgecolors='k')
+    axes[0].set_title('Ground Truth: Program Risk')
+    axes[0].set_xlabel('Lines of Code (LOC)')
+    axes[0].set_ylabel('Cyclomatic Complexity')
+    axes[0].legend()
+    axes[0].grid(True)
+    
+    # Plot 2: Model Predictions
+    axes[1].scatter(X[y_pred==0][:, 0], X[y_pred==0][:, 1], c='green', label='Predicted Safe (0)', alpha=0.7, edgecolors='k')
+    axes[1].scatter(X[y_pred==1][:, 0], X[y_pred==1][:, 1], c='red', label='Predicted Risky (1)', alpha=0.7, edgecolors='k')
+    axes[1].set_title('Model Predictions: Program Risk')
+    axes[1].set_xlabel('Lines of Code (LOC)')
+    axes[1].set_ylabel('Cyclomatic Complexity')
+    axes[1].legend()
+    axes[1].grid(True)
+    
+    plt.suptitle('Comparison: Ground Truth vs Model Predictions', fontsize=16)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
 
 # 5. Main Agent Flow
 # Step 1: Load dataset
 X, y = load_dataset(DATA_FILE)
-print(f"✅ Loaded dataset: {X.shape[0]} samples.")
+print(f" Loaded dataset: {X.shape[0]} samples.")
 
 # Step 2: Split dataset
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -81,6 +109,9 @@ evaluate_model(model, X_test, y_test)
 
 # Step 6: Save updated model
 save_model(model)
+
+# Step 7: Visualize the truth vs prediction comparison
+visualize_comparison(X_test, y_test, y_pred)
 
 # Optional: Save timestamped version
 timestamped_model_save(model)
