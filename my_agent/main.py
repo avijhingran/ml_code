@@ -53,7 +53,7 @@ def evaluate_model(model, X_test, y_test):
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
     print(f" Model Accuracy: {acc*100:.2f}%")
-    return acc
+    return acc, y_pred
 
 def timestamped_model_save(model):
     """Optional: Save model versioned with timestamp."""
