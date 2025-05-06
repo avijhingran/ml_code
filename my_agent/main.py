@@ -1,7 +1,4 @@
-# 1. Install needed packages (only in Colab or first time)
-!pip install scikit-learn
-
-# 2. Import Libraries
+# 1. Import Libraries
 import numpy as np
 import pandas as pd
 import os
@@ -11,18 +8,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import datetime
 
-
-# 3. Constants
+# 2. Constants
 DATA_FILE = 'my_agent/dataset.csv'  # Path inside Colab after clone
 MODEL_DIR = 'my_agent/models/'      # Models will be saved here
 MODEL_FILE = os.path.join(MODEL_DIR, 'model.pkl') 
 CLASSES = np.array([0,1])           # Risk classes: Safe (0), Risky (1)
 
-# 4. Ensure model folder exists
+# 3. Ensure model folder exists
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# 5. Functions
-
+# 4. Functions
 def load_dataset(file_path):
     """Load dataset from CSV."""
     data = pd.read_csv(file_path)
@@ -67,8 +62,7 @@ def timestamped_model_save(model):
         pickle.dump(model, f)
     print(f"🗂️  Model also saved as {versioned_file} for version control.")
 
-# 6. Main Agent Flow
-
+# 5. Main Agent Flow
 # Step 1: Load dataset
 X, y = load_dataset(DATA_FILE)
 print(f"✅ Loaded dataset: {X.shape[0]} samples.")
