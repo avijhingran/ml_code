@@ -97,9 +97,12 @@ def visualize_comparison(X, y_true, y_pred, save_path="comparison_plot.png"):
 # Step 1: Load dataset
 X, y = load_dataset(DATA_FILE)
 print(f" Loaded dataset: {X.shape[0]} samples.")
+print("Labels distribution:", np.bincount(y))
 
 # Step 2: Split dataset
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+print("Train labels distribution:", np.bincount(y_train))
+print("Test labels distribution:", np.bincount(y_test))
 
 # Step 3: Initialize or Load model
 model = initialize_or_load_model()
