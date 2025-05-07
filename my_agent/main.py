@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import datetime
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
 
 # 2. Constants
 DATA_FILE = 'dataset.csv'  # Path inside Colab after clone
@@ -100,7 +101,6 @@ print(f" Loaded dataset: {X.shape[0]} samples.")
 print("Labels distribution:", np.bincount(y))
 
 # Normalize features
-from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
