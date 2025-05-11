@@ -96,33 +96,34 @@ def visualize_comparison(X, y_true, y_pred, save_path="comparison_plot.png"):
 
 # 5. Main Agent Flow
 # Step 1: Load dataset
-X, y = load_dataset(DATA_FILE)
-print(f" Loaded dataset: {X.shape[0]} samples.")
+X_raw, y = load_dataset(DATA_FILE)
+print(f"Loaded dataset: {X_raw.shape[0]} samples.")
 print("Labels distribution:", np.bincount(y))
 
-# Normalize features
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
-
-# Step 2: Split dataset
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+# Step 2: Split the dataset into train/test on raw data
+X_train_raw, X_test_raw, y_train, y_test = train_test_split(X_raw, y, test_size=0.3, random_state=42)
 print("Train labels distribution:", np.bincount(y_train))
 print("Test labels distribution:", np.bincount(y_test))
 
-# Step 3: Initialize or Load model
+# Step 3: Normalize the training and test data separately
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train_raw)
+X_test = scaler.transform(X_test_raw)
+
+# Step 4: Initialize or Load model
 model = initialize_or_load_model()
 
-# Step 4: Incremental training
+# Step 5: Incremental training
 model = train_incrementally(model, X_train, y_train)
 
-# Step 5: Evaluate
+# Step 6: Evaluate
 acc, y_pred = evaluate_model(model, X_test, y_test)
 
-# Step 6: Save updated model
+# Step 7: Save updated model
 save_model(model)
 
-# Step 7: Visualize the truth vs prediction comparison
-visualize_comparison(X_test, y_test, y_pred)
+# Step 8: Visualize the truth vs prediction comparison using original features
+visualize_comparison(X_test_raw, y_test, y_pred)
 
 # Optional: Save timestamped version
 timestamped_model_save(model)
