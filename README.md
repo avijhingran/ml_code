@@ -1,7 +1,9 @@
 # ml_code
 Machine Learning
 
-Copy everything from below and execute in a Google Colab notebook:
+### To execute any .py file, copy and paste the below commands all together in Google Colab Notebook and run:
+
+```python
 # Install scikit-learn (ML library)
 !pip install scikit-learn
 
@@ -20,3 +22,4 @@ Copy everything from below and execute in a Google Colab notebook:
 # Visualize Output plot
 from display_utils import show_plot
 show_plot('comparison_plot.png')
+```
