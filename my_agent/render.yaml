@@ -2,6 +2,6 @@ services:
   - type: web
     name: risk-predictor-api
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python risk_predictor_api.py
+    buildCommand: cd my_agent && pip install -r requirements.txt
+    startCommand: cd my_agent && python risk_predictor_api.py
     plan: free
