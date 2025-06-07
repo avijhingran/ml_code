@@ -1,28 +1,30 @@
 import os
 import anthropic
 import openai
+import getpass
 
-# --- Set your API keys ---
-# For OpenAI (new SDK format)
-client = openai.OpenAI(api_key="your-openai-api-key")
+# --- Secure API key input ---
+openai_key = getpass.getpass("🔐 Enter your OpenAI API key (starts with sk-...): ")
+anthropic_key = getpass.getpass("🔐 Enter your Anthropic API key: ")
 
-# For Anthropic
-anthropic_client = anthropic.Anthropic(api_key="your-anthropic-api-key")
+# --- Initialize OpenAI + Anthropic clients ---
+client = openai.OpenAI(api_key=openai_key)
+anthropic_client = anthropic.Anthropic(api_key=anthropic_key)
 
-# --- Ask for file location ---
-file_path = input("Enter the path to your COBOL file: ").strip()
+# --- Ask for COBOL file path ---
+file_path = input("\n📄 Enter the path to your COBOL file (e.g., my_sample.cbl or folder/myfile.cbl): ").strip()
 
 # --- Check if file exists ---
 if not os.path.isfile(file_path):
-    print(f" Error: File '{file_path}' not found.")
+    print(f"❌ Error: File '{file_path}' not found.")
     exit()
 
-# --- Read the COBOL file ---
+# --- Read COBOL file ---
 with open(file_path, 'r') as f:
     cobol_code = f.read()
 
 # --- Ask user for model selection ---
-print("\nChoose a model to summarize COBOL:")
+print("\n🤖 Choose a model to summarize COBOL:")
 print("1. OpenAI GPT-4")
 print("2. Anthropic Claude")
 choice = input("Enter 1 or 2: ").strip()
@@ -32,11 +34,11 @@ if choice == "1":
 elif choice == "2":
     model_used = "anthropic"
 else:
-    print("Invalid choice. Defaulting to OpenAI GPT-4.")
+    print("⚠️ Invalid choice. Defaulting to OpenAI GPT-4.")
     model_used = "openai"
 
-# --- Generate summary ---
-print(f"\nSummarizing using {model_used.upper()}...\n")
+# --- Summarize the COBOL code ---
+print(f"\n📝 Summarizing using {model_used.upper()}...\n")
 
 if model_used == "openai":
     response = client.chat.completions.create(
@@ -58,6 +60,6 @@ else:
     )
     summary = response.content[0].text
 
-# --- Output summary ---
-print("=== COBOL Summary ===\n")
+# --- Output the summary ---
+print("=== ✅ COBOL Summary ===\n")
 print(summary)
