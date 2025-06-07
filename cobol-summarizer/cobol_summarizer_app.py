@@ -4,21 +4,21 @@ import openai
 import anthropic
 
 # --- Collect API keys ---
-openai_key = input("🔐 Enter your OpenAI API key (or leave blank to skip): ").strip()
-anthropic_key = input("🔐 Enter your Anthropic API key (or leave blank to skip): ").strip()
-openrouter_key = input("🔐 Enter your OpenRouter API key (or leave blank to skip): ").strip()
+openai_key = input("Enter your OpenAI API key (or leave blank to skip): ").strip()
+anthropic_key = input("Enter your Anthropic API key (or leave blank to skip): ").strip()
+openrouter_key = input("Enter your OpenRouter API key (or leave blank to skip): ").strip()
 
 # --- Select COBOL file ---
-file_path = input("\n📄 Enter the path to your COBOL file (e.g., my_sample.cbl): ").strip()
+file_path = input("\n Enter the path to your COBOL file (e.g., my_sample.cbl): ").strip()
 if not os.path.isfile(file_path):
-    print(f"❌ Error: File '{file_path}' not found.")
+    print(f" Error: File '{file_path}' not found.")
     exit()
 
 with open(file_path, 'r') as f:
     cobol_code = f.read()
 
 # --- Choose model source ---
-print("\n🤖 Choose a model to summarize COBOL:")
+print("\n Choose a model to summarize COBOL:")
 print("1. OpenAI (GPT-4 / GPT-3.5)")
 print("2. Anthropic Claude")
 print("3. OpenRouter (e.g., Mixtral, GPT-4, Claude, etc.)")
@@ -26,11 +26,8 @@ choice = input("Enter 1, 2, or 3: ").strip()
 
 # --- Prepare prompt ---
 prompt = f"Summarize the following COBOL code in plain English:\n\n{cobol_code}\n\nSummary:"
-
-print(f"\n🧠 Summarizing using option {choice}...\n")
-
+print(f"\n Summarizing using option {choice}...\n")
 summary = ""
-
 try:
     if choice == "1":
         if not openai_key:
@@ -63,7 +60,7 @@ try:
             "Content-Type": "application/json"
         }
 
-        # 👇 You can change this to any available OpenRouter model
+        # You can change this to any available OpenRouter model
         model = "mistralai/mixtral-8x7b-instruct"
 
         payload = {
@@ -81,13 +78,13 @@ try:
             raise ValueError(f"OpenRouter error: {data}")
 
     else:
-        print("⚠️ Invalid selection.")
+        print("Invalid selection.")
         exit()
 
 except Exception as e:
-    print(f"❌ Error during summarization: {e}")
+    print(f"Error during summarization: {e}")
     exit()
 
 # --- Output result ---
-print("\n=== ✅ COBOL Summary ===\n")
+print("\n=== COBOL Summary ===\n")
 print(summary)
