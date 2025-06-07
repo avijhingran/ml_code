@@ -9,7 +9,7 @@ anthropic_key = input("Enter your Anthropic API key (or leave blank to skip): ")
 openrouter_key = input("Enter your OpenRouter API key (or leave blank to skip): ").strip()
 
 # --- Select COBOL file ---
-file_path = input("\n Enter the path to your COBOL file (e.g., my_sample.cbl): ").strip()
+file_path = input("\n📄 Enter the path to your COBOL file: ").strip()
 if not os.path.isfile(file_path):
     print(f" Error: File '{file_path}' not found.")
     exit()
@@ -24,8 +24,16 @@ print("2. Anthropic Claude")
 print("3. OpenRouter (e.g., Mixtral, GPT-4, Claude, etc.)")
 choice = input("Enter 1, 2, or 3: ").strip()
 
-# --- Prepare prompt ---
-prompt = f"Summarize the following COBOL code in plain English:\n\n{cobol_code}\n\nSummary:"
+# --- Prepare business-oriented prompt ---
+prompt = (
+    "You are a business analyst reviewing legacy COBOL code. "
+    "Summarize what this program does from a functional and business perspective. "
+    "Avoid technical jargon, variables, or COBOL syntax. "
+    "Explain the purpose, business rules, and real-world outcome in plain English.\n\n"
+    f"COBOL Code:\n{cobol_code}\n\n"
+    "Business Summary:"
+)
+
 print(f"\n Summarizing using option {choice}...\n")
 summary = ""
 try:
@@ -60,7 +68,7 @@ try:
             "Content-Type": "application/json"
         }
 
-        # You can change this to any available OpenRouter model
+        # You can customize the model here (e.g., gpt-4, mistral, claude)
         model = "mistralai/mixtral-8x7b-instruct"
 
         payload = {
@@ -78,7 +86,7 @@ try:
             raise ValueError(f"OpenRouter error: {data}")
 
     else:
-        print("Invalid selection.")
+        print(" Invalid selection.")
         exit()
 
 except Exception as e:
