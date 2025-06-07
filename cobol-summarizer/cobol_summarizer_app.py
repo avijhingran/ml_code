@@ -1,5 +1,3 @@
-!pip install openai anthropic
-
 import openai
 import anthropic
 from google.colab import files
