@@ -12,7 +12,7 @@ client = openai.OpenAI(api_key=openai_key)
 anthropic_client = anthropic.Anthropic(api_key=anthropic_key)
 
 # --- Ask for COBOL file path ---
-file_path = input("\n📄 Enter the path to your COBOL file (e.g., my_sample.cbl or folder/myfile.cbl): ").strip()
+file_path = input("\n📄 Enter the path to your COBOL file: ").strip()
 
 # --- Check if file exists ---
 if not os.path.isfile(file_path):
