@@ -4,37 +4,37 @@ import openai
 import anthropic
 import requests
 
-# === 🔐 Securely prompt for API keys ===
-openai_key = getpass.getpass("🔐 Enter your OpenAI API key (or press Enter to skip): ")
-anthropic_key = getpass.getpass("🔐 Enter your Anthropic API key (or press Enter to skip): ")
-hf_token = getpass.getpass("🔐 Enter your Hugging Face API key (or press Enter to skip): ")
+# === Securely prompt for API keys ===
+openai_key = input("Paste your OpenAI API key (or leave blank to skip): ").strip()
+anthropic_key = input("Paste your Anthropic API key (or leave blank to skip): ").strip()
+hf_token = input("Paste your Hugging Face API key (or leave blank to skip): ").strip()
 
-# === 🧠 Initialize API clients ===
+# === Initialize API clients ===
 client = openai.OpenAI(api_key=openai_key) if openai_key else None
 anthropic_client = anthropic.Anthropic(api_key=anthropic_key) if anthropic_key else None
 
-# === 📄 Get COBOL file path ===
-file_path = input("\n📂 Enter the path to your COBOL file (e.g., my_sample.cbl): ").strip()
+# === Get COBOL file path ===
+file_path = input("\nEnter the path to your COBOL file (e.g., my_sample.cbl): ").strip()
 
 if not os.path.isfile(file_path):
-    print(f"❌ Error: File '{file_path}' not found.")
+    print(f"Error: File '{file_path}' not found.")
     exit()
 
 with open(file_path, 'r') as f:
     cobol_code = f.read()
 
-# === 🤖 Choose model ===
+# === Choose model ===
 print("\nChoose a model to summarize COBOL:")
 print("1. OpenAI GPT-4 / GPT-3.5")
 print("2. Anthropic Claude")
 print("3. Hugging Face Mistral-7B-Instruct")
 choice = input("Enter 1, 2 or 3: ").strip()
 
-# === 📝 Create the prompt ===
+# === Create the prompt ===
 prompt = f"Summarize the following COBOL code in plain English:\n\n{cobol_code}\n\nSummary:"
 
-# === 🔁 Call the selected model ===
-print(f"\n📡 Generating summary using option {choice}...\n")
+# === Call the selected model ===
+print(f"\nGenerating summary using option {choice}...\n")
 
 summary = ""
 
@@ -86,13 +86,13 @@ try:
         summary = result[0]["generated_text"] if isinstance(result, list) else result.get("generated_text", "")
 
     else:
-        print("⚠️ Invalid choice. Please enter 1, 2, or 3.")
+        print("⚠Invalid choice. Please enter 1, 2, or 3.")
         exit()
 
 except Exception as e:
-    print(f"❌ Error during summarization: {e}")
+    print(f"Error during summarization: {e}")
     exit()
 
-# === ✅ Output the result ===
+# === Output the result ===
 print("\n=== COBOL Summary ===\n")
 print(summary)
