@@ -25,7 +25,7 @@ with open(file_path, 'r') as f:
 
 # --- Ask user for model selection ---
 print("\n🤖 Choose a model to summarize COBOL:")
-print("1. OpenAI GPT-4")
+print("1. OpenAI gpt-3.5-turbo")
 print("2. Anthropic Claude")
 choice = input("Enter 1 or 2: ").strip()
 
@@ -34,7 +34,7 @@ if choice == "1":
 elif choice == "2":
     model_used = "anthropic"
 else:
-    print("⚠️ Invalid choice. Defaulting to OpenAI GPT-4.")
+    print("⚠️ Invalid choice. Defaulting to OpenAI gpt-3.5-turbo.")
     model_used = "openai"
 
 # --- Summarize the COBOL code ---
@@ -42,7 +42,7 @@ print(f"\n📝 Summarizing using {model_used.upper()}...\n")
 
 if model_used == "openai":
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "user", "content": f"Summarize this COBOL code:\n{cobol_code}"}
         ],
