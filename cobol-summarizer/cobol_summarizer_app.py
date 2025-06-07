@@ -1,17 +1,20 @@
-import openai
-import anthropic
 import os
+import anthropic
+import openai
 
 # --- Set your API keys ---
-openai.api_key = "your-openai-api-key"
+# For OpenAI (new SDK format)
+client = openai.OpenAI(api_key="your-openai-api-key")
+
+# For Anthropic
 anthropic_client = anthropic.Anthropic(api_key="your-anthropic-api-key")
 
 # --- Ask for file location ---
-file_path = input("Enter the path to your COBOL file (e.g., my_sample.cbl or folder/myfile.cbl): ").strip()
+file_path = input("Enter the path to your COBOL file: ").strip()
 
 # --- Check if file exists ---
 if not os.path.isfile(file_path):
-    print(f"❌ Error: File '{file_path}' not found.")
+    print(f" Error: File '{file_path}' not found.")
     exit()
 
 # --- Read the COBOL file ---
@@ -33,28 +36,28 @@ else:
     model_used = "openai"
 
 # --- Generate summary ---
-print(f"\nSummarizing using {model_used.upper()}...")
+print(f"\nSummarizing using {model_used.upper()}...\n")
 
 if model_used == "openai":
-    completion = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "user", "content": f"Summarize this COBOL code:\n{cobol_code}"}
         ],
         temperature=0.3
     )
-    summary = completion["choices"][0]["message"]["content"]
+    summary = response.choices[0].message.content
 
 else:
-    completion = anthropic_client.messages.create(
+    response = anthropic_client.messages.create(
         model="claude-3-opus-20240229",
         max_tokens=500,
         messages=[
             {"role": "user", "content": f"Summarize this COBOL code:\n{cobol_code}"}
         ]
     )
-    summary = completion.content[0].text
+    summary = response.content[0].text
 
 # --- Output summary ---
-print("\n=== COBOL Summary ===\n")
+print("=== COBOL Summary ===\n")
 print(summary)
