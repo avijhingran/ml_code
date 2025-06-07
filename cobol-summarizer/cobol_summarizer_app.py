@@ -66,7 +66,7 @@ try:
     elif choice == "3":
         if not hf_token:
             raise ValueError("Hugging Face API key not provided.")
-        API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1"
+        API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-alpha"
         headers = {
             "Authorization": f"Bearer {hf_token}",
             "Content-Type": "application/json"
