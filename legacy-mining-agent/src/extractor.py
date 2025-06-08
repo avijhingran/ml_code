@@ -2,22 +2,28 @@ import zipfile
 import urllib.request
 import os
 
-def extract_zip(zip_url, extract_to):
+def extract_zip(zip_source, extract_to):
     """
-    Downloads and extracts a ZIP file from a given URL into a specified folder.
-
+    Downloads and extracts a ZIP from a URL or extracts a local ZIP file.
+    
     Args:
-        zip_url (str): Publicly accessible URL of the ZIP file.
-        extract_to (str): Directory where the contents will be extracted.
+        zip_source (str): URL or local path to the ZIP file.
+        extract_to (str): Destination directory to extract contents to.
     """
-    zip_path = "temp.zip"
+    if zip_source.startswith("http://") or zip_source.startswith("https://"):
+        print(f"Downloading ZIP from URL: {zip_source}")
+        zip_path = "temp.zip"
+        urllib.request.urlretrieve(zip_source, zip_path)
+        downloaded = True
+    else:
+        print(f"Using local ZIP: {zip_source}")
+        zip_path = zip_source
+        downloaded = False
 
-    print(f"Downloading ZIP from: {zip_url}")
-    urllib.request.urlretrieve(zip_url, zip_path)
-
-    print(f"Extracting to: {extract_to}")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
 
-    os.remove(zip_path)
-    print("ZIP file downloaded and extracted.")
+    if downloaded:
+        os.remove(zip_path)
+
+    print(f"ZIP extracted to: {extract_to}")
